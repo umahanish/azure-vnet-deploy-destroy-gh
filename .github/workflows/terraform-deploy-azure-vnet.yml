@@ -37,6 +37,11 @@ jobs:
       - name: Terraform Validate
         run: terraform validate
         working-directory: ./terraform/vNET
+      
+      - name: Debug: List files in working directory
+        run: ls -la
+        working-directory: ./terraform/vNET
+  
 
       - name: Terraform Plan
         run: terraform plan -var-file="${{ github.event.inputs.environment }}.tfvars" -out=tfplan
