@@ -22,11 +22,13 @@ jobs:
 
       - name: Terraform Init
         run: terraform init -backend-config="backend.tfvars"
-        working-directory: ./terraform/backend-bootstrap
+        working-directory: ${{ github.workspace }}/terraform/backend-bootstrap
+
 
       - name: Terraform Apply with storage_account_name
         run: terraform apply -auto-approve
-        working-directory: ./terraform/backend-bootstrap
+        working-directory: ${{ github.workspace }}/terraform/backend-bootstrap
+
 
       - name: Capture Terraform Outputs
         id: capture_outputs
@@ -34,7 +36,7 @@ jobs:
           terraform output -json > tf_outputs.json
           echo "STORAGE_ACCOUNT_NAME=$(jq -r .storage_account_name.value tf_outputs.json)" >> $GITHUB_ENV
           echo "CONTAINER_NAME=$(jq -r .container_name.value tf_outputs.json)" >> $GITHUB_ENV
-        working-directory: ./terraform/backend-bootstrap
+        working-directory: ${{ github.workspace }}/terraform/backend-bootstrap
 
       - name: Show Captured Outputs
         run: |
