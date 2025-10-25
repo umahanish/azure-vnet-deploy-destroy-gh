@@ -41,9 +41,9 @@ jobs:
       - name: Debug Confirm tfvars file
         run: |
           echo "Listing env folder:"
-          ls -la ../../env
+          ls -la ../env
           echo "Checking for tfvars file:"
-          if [ -f ../../env/${{ github.event.inputs.environment }}.tfvars ]; then
+          if [ -f ../env/${{ github.event.inputs.environment }}.tfvars ]; then
             echo "✅ tfvars file found"
           else
             echo "❌ tfvars file NOT found"
@@ -53,7 +53,7 @@ jobs:
   
 
       - name: Terraform Plan
-        run: terraform plan -var-file="../../env/${{ github.event.inputs.environment }}.tfvars" -out=tfplan
+        run: terraform plan -var-file="../env/${{ github.event.inputs.environment }}.tfvars" -out=tfplan
         working-directory: ./terraform/vNET
 
       - name: Terraform Apply
