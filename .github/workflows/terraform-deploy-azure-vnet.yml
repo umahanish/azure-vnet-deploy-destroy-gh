@@ -38,9 +38,18 @@ jobs:
         run: terraform validate
         working-directory: ./terraform/vNET
       
-      - name: List files in working directory
-        run: ls -la
-        working-directory: ./terraform/vNET
+      - name: Debug Confirm tfvars file
+        run: |
+          echo "Listing env folder:"
+          ls -la ../../env
+          echo "Checking for tfvars file:"
+          if [ -f ../../env/${{ github.event.inputs.environment }}.tfvars ]; then
+            echo "✅ tfvars file found"
+          else
+            echo "❌ tfvars file NOT found"
+            exit 1
+          fi
+        working-directory: ./terraform/vnet
   
 
       - name: Terraform Plan
