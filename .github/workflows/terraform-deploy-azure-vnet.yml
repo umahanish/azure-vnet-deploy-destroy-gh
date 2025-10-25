@@ -49,4 +49,4 @@ jobs:
           else
             terraform apply tfplan
           fi
-        working-directory: ./terraform/VNET
+        working-directory: ./terraform/vNET
