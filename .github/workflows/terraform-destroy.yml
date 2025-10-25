@@ -39,7 +39,7 @@ jobs:
         working-directory: ./terraform/vNET
 
       - name: Terraform Plan (Destroy)
-        run: terraform plan -destroy -var-file="../../env/${{ github.event.inputs.environment }}.tfvars" -out=tfplan
+        run: terraform plan -destroy -var-file="../env/${{ github.event.inputs.environment }}.tfvars" -out=tfplan
         working-directory: ./terraform/vNET
 
       - name: Terraform Destroy
