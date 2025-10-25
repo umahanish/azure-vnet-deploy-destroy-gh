@@ -38,7 +38,7 @@ jobs:
         run: terraform validate
         working-directory: ./terraform/vNET
       
-      - name: Debug: List files in working directory
+      - name: List files in working directory
         run: ls -la
         working-directory: ./terraform/vNET
   
