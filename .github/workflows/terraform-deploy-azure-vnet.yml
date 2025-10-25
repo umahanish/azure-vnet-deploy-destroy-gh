@@ -31,7 +31,7 @@ jobs:
         uses: hashicorp/setup-terraform@v3
 
       - name: Terraform Init
-        run: terraform init
+        run: terraform init -backend-config="../backend-bootstrap/backend.tfvars"
         working-directory: ./terraform/vNET
 
       - name: Terraform Validate
@@ -63,4 +63,8 @@ jobs:
           else
             terraform apply tfplan
           fi
+        working-directory: ./terraform/vNET
+
+      - name: Capture Terraform Outputs
+        run: terraform output -json > vnet_outputs.json
         working-directory: ./terraform/vNET
