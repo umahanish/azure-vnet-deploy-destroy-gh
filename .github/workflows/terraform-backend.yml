@@ -15,10 +15,20 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
+      
+      - name: Debug Show repo root
+        run: |
+          echo "Current workspace: $GITHUB_WORKSPACE"
+          ls -la $GITHUB_WORKSPACE
+          echo "Listing terraform folder:"
+          ls -la $GITHUB_WORKSPACE/terraform
+          echo "Listing backend-bootstrap folder:"
+          ls -la $GITHUB_WORKSPACE/terraform/backend-bootstrap
+  
 
       - name: Terraform Init
         run: terraform init -backend-config="backend.tfvars"
