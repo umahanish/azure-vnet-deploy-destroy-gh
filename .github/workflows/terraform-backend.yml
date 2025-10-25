@@ -21,7 +21,7 @@ jobs:
         uses: hashicorp/setup-terraform@v3
 
       - name: Terraform Init
-        run: terraform terraform init -backend-config="backend.tfvars"
+        run: terraform init -backend-config="backend.tfvars"
         working-directory: ./terraform/backend-bootstrap
 
       - name: Terraform Apply with storage_account_name
