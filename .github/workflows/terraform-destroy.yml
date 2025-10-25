@@ -32,15 +32,15 @@ jobs:
 
       - name: Terraform Init
         run: terraform init
-        working-directory: ./terraform
+        working-directory: ./terraform/vNET
 
       - name: Terraform Validate
         run: terraform validate
-        working-directory: ./terraform
+        working-directory: ./terraform/vNET
 
       - name: Terraform Plan (Destroy)
         run: terraform plan -destroy -var-file="${{ github.event.inputs.environment }}.tfvars" -out=tfplan
-        working-directory: ./terraform
+        working-directory: ./terraform/vNET
 
       - name: Terraform Destroy
         run: |
@@ -49,4 +49,4 @@ jobs:
           else
             terraform apply tfplan
           fi
-        working-directory: ./terraform
+        working-directory: ./terraform/vNET
