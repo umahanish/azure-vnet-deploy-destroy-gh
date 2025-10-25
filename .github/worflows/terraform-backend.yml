@@ -1,0 +1,42 @@
+name: Bootstrap Terraform Blob Backend
+
+on:
+  workflow_dispatch:
+
+jobs:
+  bootstrap-backend:
+    runs-on: ubuntu-latest
+
+    env:
+      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init
+        run: terraform init
+        working-directory: ./terraform/backend-bootstrap
+
+      - name: Terraform Apply with storage_account_name
+        run: terraform apply -auto-approve
+        working-directory: ./terraform/backend-bootstrap
+
+      - name: Capture Terraform Outputs
+        id: capture_outputs
+        run: |
+          terraform output -json > tf_outputs.json
+          echo "STORAGE_ACCOUNT_NAME=$(jq -r .storage_account_name.value tf_outputs.json)" >> $GITHUB_ENV
+          echo "CONTAINER_NAME=$(jq -r .container_name.value tf_outputs.json)" >> $GITHUB_ENV
+        working-directory: ./terraform/backend-bootstrap
+
+      - name: Show Captured Outputs
+        run: |
+          echo "Storage Account: $STORAGE_ACCOUNT_NAME"
+          echo "Container Name: $CONTAINER_NAME"
